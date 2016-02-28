@@ -1,1 +1,168 @@
+\documentclass[10pt,a4paper]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\author{Никитина Анна}
+\title{Лабораторная работа №3.\\
+	Программа для шифрования и подписи GPG, пакет Gpg4win}
+\begin{document}
+\maketitle
+\renewcommand{\thesection}{\arabic{section}}
+\tableofcontents
+\pagebreak
+\setcounter{totalnumber}{10}
+\setcounter{topnumber}{10}
+\setcounter{bottomnumber}{10}
+\renewcommand{\topfraction}{1}
+\renewcommand{\textfraction}{0}
 
+\section{Цель работы}
+Научиться создавать сертификаты, шифровать файлы и ставить ЭЦП.
+\section{Описание работы}
+Шифрование — обратимое преобразование информации в целях сокрытия от неавторизованных лиц, с предоставлением, в это же время, авторизованным пользователям доступа к ней. Одним из способов шифрования является ЭЦП. \\
+Электронная цифровая подпись (ЭЦП) — реквизит электронного документа, полученный в результате криптографического преобразования информации с использованием закрытого ключа подписи и позволяющий проверить отсутствие искажения информации в электронном документе с момента формирования подписи (целостность), принадлежность подписи владельцу сертификата ключа подписи (авторство), а в случае успешной проверки подтвердить факт подписания электронного документа (неотказуемость).  \\
+При выполнении лабораторной работы для шифрования и создания ЭЦП используется пакет
+Gpg4win. Он включает в себя:
+\begin{itemize}
+\item версию GnuPG — свободная программа для шифрования информации и создания электронных цифровых подписей;
+\item Kleopatra (менеджер сертификатов для OpenPGP и X.509);
+\item GPA (альтернативный менеджер сертификатов (GNU) для OpenPGP и X.509);
+\item другие компоненты.
+\end{itemize}
+\section{Ход работы}
+Дальнейшие действия будут выполнены в графической оболочке \textbf{"Kleopatra"}.
+\subsection{Создание  ключевой пары openPGP}
+Для создания новой ключевой пары OpenPGP выполним команду \textit{"File -> New Certificate"}. После чего необходимо ввести персональную информацию: имя сертификата, адрес электронной почты пользователя (рисунок 1).
+\begin{figure}[ht]
+	\center{\includegraphics[width=0.9\linewidth]{image/1}}
+	\caption{Окно для ввода персональных данных.}
+\end{figure}
+
+
+Далее подтвердим персональные данные, нажав кнопку \textit{"Create Key"} (рисунок 2).
+\begin{figure}[ht]
+	\center{\includegraphics[width=0.8\linewidth]{image/2}}
+	\caption{Окно создания ключа.}
+\end{figure}
+
+После необходимо дважды ввести фразу-пароль (рисунок 3).
+
+\begin{figure}[h]
+\parbox[b]{0.3\linewidth}
+	{\centering
+     \includegraphics{image/3}}
+\hspace*{\fill}
+\parbox[b]{0.3\linewidth}
+	{\centering
+     \includegraphics{image/4}}
+ \caption{Окно ввода и подтверждения фразы-пароля}
+\end{figure}
+
+Сертификат успешно создан (рисунок  4).
+\begin{figure}[h]
+	\center{\includegraphics[width=1\linewidth]{image/5}}
+	\caption{Созданный сертификат}
+\end{figure}
+
+\subsection{Экспорт сертификата}
+Для экспорта сертификата выполним команду \textit{"File ->  Export Certificate"}. После чего введем имя файла \textit{key.asc} (рисунок 5).
+\begin{figure}[h]
+	\center{\includegraphics[width=1\linewidth]{image/6}}
+	\caption{Экспорт сертификата}
+\end{figure}
+
+\subsection{Поставить ЭЦП на файл}
+Для того, что бы поставить ЭЦП на файл выполним команду \textit{"File -> Sign/Encrypt Files"} и выберем файл, на который необходимо поставить ЭЦП.В нашем случае это \textit{1.PNG} (рисунок 6).
+\begin{figure}[h]
+	\center{\includegraphics[width=1\linewidth]{image/7}}
+	\caption {Выбор файла}
+\end{figure}
+
+После выберем одно из трех предложенных действий.
+\begin{itemize}
+\item Sign and Encrypt
+\item Encrypt
+\item Sign
+\end{itemize} 
+В нашем случае \textit{Sign} - создание цифровой подписи (рисунок 7).
+\begin{figure}[h]
+	\center{\includegraphics[width=0.8\linewidth]{image/8}}
+	\caption{Поставить ЭЦП на файл}
+\end{figure}
+
+Выберем для подписи стандарт OpenPGP и сертификат, созданный ранее (рисунок 8).
+\begin{figure}[h]
+	\center{\includegraphics[width=0.8\linewidth]{image/9}}
+	\caption{Выбор стандарта и сертификата для ЭЦП}
+\end{figure}
+
+Введем пароль (рисунок 9).
+\begin{figure}[h]
+	\center{\includegraphics[width=1\linewidth]{image/10}}
+	\caption{Ввод пароля}
+\end{figure}
+
+Видим сообщение об успешном создании подписи на файл \textit{1.PNG}, новый подписаннный файл называется \textit{1.PNG.sig} (рисунок 10).
+\begin{figure}[h]
+	\center{\includegraphics[width=0.8\linewidth]{image/11}}
+	\caption{Успешная подпись файла}
+\end{figure}
+
+\subsection{Импорт сертификата и его подпись}
+Для импорта сертификата выполним команду \textit{File -> Import Certificates} и выберем необходимый файл типа \textit{.asc} (рисунок 11).
+\begin{figure}[h]
+	\center{\includegraphics[width=0.5\linewidth]{image/12}}
+	\caption{Выбор файла для импорта}
+\end{figure}
+
+После чего импортированный сертификат появится в рабочем пространстве (рисунок 12).
+\begin{figure}[h]
+	\center{\includegraphics[width=0.8\linewidth]{image/13}}
+	\caption{Успешный импорт сертификата}
+\end{figure}
+
+Подпишем его, как это было описано выше (рисунок 13).
+\begin{figure}[h]
+	\center{\includegraphics[width=0.7\linewidth]{image/14}}
+	\caption{Подпись импортированного сертификата }
+\end{figure}
+
+Для проверки воспользуемся командой \textit{File -> Decrypt/Verify Files} и выберем подписанный ранее сертификат типа \textit{.asc/sig} (рисунок 14).
+\begin{figure}[h]
+	\center{\includegraphics[width=0.8\linewidth]{image/20}}
+	\caption{Проверка подписи}
+\end{figure}
+
+Проверка показывает, кем была осуществлена подпись (рисунок 15).
+\begin{figure}[h]
+	\center{\includegraphics[width=0.8\linewidth]{image/21}}
+	\caption{Проверка подписи}
+\end{figure}
+\subsection{Использование GNU Privacy handbook}
+С помощью GNU Privacy handbook проделаем некоторые действия по использованию gpg через командную строку. \\
+Для создания ключевой пары введем в консоле команду \textit{gpg --gen-key}. Далее выберем тип ключа, его размер, срок действия, укажем ID пользователя, электронную почту, введем пароля, после чего создастся ключевая пара. Полный лог вышеперечисленных действий приведен в файле \textit{log.txt}. \\
+Создали ключ типа RSA и DSA, размером 1024, срок действия которого не ограничен. \\
+ 
+Для создания сертификата отзыва воспользуемся командой \textit{gpg --output key\_console.asc  --gen-revoke anna\_nik}, в которой укажем выходной файл сертификата и ключевую пару. После ответа на необходимые вопросы сертификат будет создан (рисунок 11). \\
+ \begin{figure}[h]
+	\center{\includegraphics[width=0.8\linewidth]{image/18}}
+	\caption{Создание сертификата отзыва}
+\end{figure}
+
+ Для просмотра списка созданных ключей введем команду \textit{gpg --list-key}. Видим в списке все ключи, созданные или импортированные как в графической оболочке, так и в консоле (рисунок 12).
+\begin{figure}[h]
+	\center{\includegraphics[width=0.8\linewidth]{image/17}}
+	\caption{Список созданных ключей}
+\end{figure}
+
+Для того, чтобы отправить свой открытый ключ корреспонденту необходимо его экспортировать командой  \textit{gpg --output anna\_nik.gpg --export anna\_nik}.  
+
+Для подписи документа используем команду \textit{gpg --output 2.PNG.sin --sign 2.PNG}. После ввода пароля создается новый полписанный документ \textit{2.PNG.sin} (рисунок 13).
+\begin{figure}[h]
+	\center{\includegraphics[width=0.8\linewidth]{image/19}}
+	\caption{Подпись документа}
+\end{figure}
+\end{document}
